@@ -1,5 +1,3 @@
-const { log } = require('console');
-const { Socket } = require('dgram');
 const express = require('express')
 const app = express()
 
@@ -17,21 +15,22 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
-const players = {}
+const backEndPlayers = {}
 
 io.on("connection", (socket) => {
   console.log('a user connected');
-  players[socket.id] = {
+  backEndPlayers[socket.id] = {
     x: 500 * Math.random(),
-    y: 500 * Math.random()
+    y: 500 * Math.random(),
+    color: `hsl(${Math.random() * 360}, 100%, 50%)`
   }
-  console.log(players);
-  io.emit('updatePlayers', players)
+  console.log(backEndPlayers);
+  io.emit('updatePlayers', backEndPlayers)
 
   socket.on('disconnect', (reason) => {
     console.log(reason);
-    delete players[socket.id]
-    io.emit('updatePlayers', players)
+    delete backEndPlayers[socket.id]
+    io.emit('updatePlayers', backEndPlayers)
   })
 })
 
