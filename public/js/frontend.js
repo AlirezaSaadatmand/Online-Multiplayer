@@ -56,6 +56,7 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
     if (!frontEndPlayers[id]) {
       frontEndPlayers[id] = new Player({ x: backEndPlayer.x, y: backEndPlayer.y, radius: 10, color: backEndPlayer.color })
+      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}">${id}: 0</div>`
     } else {
       if (id === socket.id) {
 
@@ -86,6 +87,9 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
   for (const id in frontEndPlayers) {
     if (!backEndPlayers[id]) {
+      const toDelete = document.querySelector(`div[data-id="${id}"]`)
+      toDelete.parentNode.removeChild(toDelete)
+
       delete frontEndPlayers[id]
     }
   }
