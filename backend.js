@@ -29,7 +29,8 @@ io.on("connection", (socket) => {
     x: 500 * Math.random(),
     y: 500 * Math.random(),
     color: `hsl(${Math.random() * 360}, 100%, 50%)`,
-    sequenceNumber: 0
+    sequenceNumber: 0,
+    score: 0
   }
 
   io.emit('updatePlayers', backEndPlayers)
@@ -118,6 +119,7 @@ setInterval(() => {
       )
       if (DISTANCE < PROJECTILE_RADIUS + backEndPlayer.radius &&
         backEndProjectiles[id].playerId != playerId) {
+        backEndPlayers[backEndProjectiles[id].playerId].score++
         delete backEndProjectiles[id]
         delete backEndPlayers[playerId]
         break

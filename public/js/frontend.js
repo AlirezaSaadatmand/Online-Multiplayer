@@ -56,8 +56,11 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
     if (!frontEndPlayers[id]) {
       frontEndPlayers[id] = new Player({ x: backEndPlayer.x, y: backEndPlayer.y, radius: 10, color: backEndPlayer.color })
-      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}">${id}: 0</div>`
+      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}">${id}: ${backEndPlayer.score}</div>`
     } else {
+
+      document.querySelector(`div[data-id="${id}"]`).innerHTML = `<div data-id="${id}">${id}: ${backEndPlayer.score}</div>`
+
       if (id === socket.id) {
 
         frontEndPlayers[id].x = backEndPlayer.x
