@@ -208,7 +208,6 @@ window.addEventListener('keydown', (event) => {
 
 window.addEventListener('keyup', (event) => {
   if (!frontEndPlayers[socket.id]) return
-
   switch (event.code) {
     case 'KeyW':
       keys.w.pressed = false;
