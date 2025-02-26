@@ -56,10 +56,30 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
     if (!frontEndPlayers[id]) {
       frontEndPlayers[id] = new Player({ x: backEndPlayer.x, y: backEndPlayer.y, radius: 10, color: backEndPlayer.color })
-      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}">${id}: ${backEndPlayer.score}</div>`
+      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}" data-score="${backEndPlayer.score}">${id}: ${backEndPlayer.score}</div>`
     } else {
 
-      document.querySelector(`div[data-id="${id}"]`).innerHTML = `<div data-id="${id}">${id}: ${backEndPlayer.score}</div>`
+      document.querySelector(`div[data-id="${id}"]`).innerHTML = `${id}: ${backEndPlayer.score}`
+
+      document.querySelector(`div[data-id="${id}"]`).setAttribute('data-score', backEndPlayer.score)
+
+      const parentDiv = document.querySelector('#playerLabels')
+      const childDiv = Array.from(parentDiv.querySelectorAll('div'))
+
+      childDiv.sort((a, b) => {
+        const scoreA = Number(a.getAttribute("data-score"))
+        const scoreB = Number(b.getAttribute("data-score"))
+
+        return scoreA - scoreB
+      })
+
+      childDiv.forEach(div => {
+        parentDiv.removeChild(div)
+      })
+
+      childDiv.forEach(div => {
+        parentDiv.appendChild(div)
+      })
 
       if (id === socket.id) {
 
