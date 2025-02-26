@@ -16,14 +16,6 @@ const y = canvas.height / 2
 const frontEndPlayers = {}
 const frontEndProjectiles = {}
 
-socket.on('connect', () => {
-  socket.emit('initCanvas', {
-    width: canvas.width,
-    height: canvas.height,
-    devicePixelRatio
-  })
-})
-
 socket.on('updateProjectiles', (backEndProjectiles) => {
   for (const id in backEndProjectiles) {
     const backEndProjectile = backEndProjectiles[id]
@@ -56,10 +48,10 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
     if (!frontEndPlayers[id]) {
       frontEndPlayers[id] = new Player({ x: backEndPlayer.x, y: backEndPlayer.y, radius: 10, color: backEndPlayer.color })
-      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}" data-score="${backEndPlayer.score}">${id}: ${backEndPlayer.score}</div>`
+      document.querySelector('#playerLabels').innerHTML += `<div data-id="${id}" data-score="${backEndPlayer.score}">${backEndPlayer.username}: ${backEndPlayer.score}</div>`
     } else {
 
-      document.querySelector(`div[data-id="${id}"]`).innerHTML = `${id}: ${backEndPlayer.score}`
+      document.querySelector(`div[data-id="${id}"]`).innerHTML = `${backEndPlayer.username}: ${backEndPlayer.score}`
 
       document.querySelector(`div[data-id="${id}"]`).setAttribute('data-score', backEndPlayer.score)
 
@@ -114,6 +106,9 @@ socket.on('updatePlayers', (backEndPlayers) => {
       toDelete.parentNode.removeChild(toDelete)
 
       delete frontEndPlayers[id]
+      if (id == socket.id) {
+        document.querySelector("#usernameForm").style.display = "block"
+      }
     }
   }
 
@@ -232,4 +227,15 @@ window.addEventListener('keyup', (event) => {
       break;
   }
 
+})
+
+document.querySelector("#usernameForm").addEventListener('submit', (event) => {
+  event.preventDefault()
+  document.querySelector("#usernameForm").style.display = 'none'
+  socket.emit('initGame', {
+    username: document.querySelector("#usernameInput").value,
+    width: canvas.width,
+    height: canvas.height,
+    devicePixelRatio
+  })
 })
