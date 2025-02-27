@@ -11,18 +11,9 @@ addEventListener('click', (event) => {
         event.clientY - playerPosition.y - top,
         event.clientX - playerPosition.x - left
     )
-    // const velocity = {
-    //     x: Math.cos(angle) * 5,
-    //     y: Math.sin(angle) * 5
-    // }
-
     socket.emit('shoot', {
         x: playerPosition.x,
         y: playerPosition.y,
         angle
     })
-
-    // frontEndProjectiles.push(
-    //     new Projectile({ x: playerPosition.x, y: playerPosition.y, radius: 5, color: playerPosition.color, velocity })
-    // )
 })

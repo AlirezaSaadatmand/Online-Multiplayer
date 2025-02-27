@@ -25,6 +25,7 @@ let projectileId = 0
 
 io.on("connection", (socket) => {
   console.log('a user connected');
+  console.log(backEndPlayers);
 
   io.emit('updatePlayers', backEndPlayers)
 
@@ -36,8 +37,8 @@ io.on("connection", (socket) => {
     projectileId++
 
     const velocity = {
-      x: Math.cos(angle) * 5,
-      y: Math.sin(angle) * 5
+      x: Math.cos(angle) * 7,
+      y: Math.sin(angle) * 7
     }
 
     backEndProjectiles[projectileId] = {
@@ -74,6 +75,9 @@ io.on("connection", (socket) => {
 
   socket.on('keydown', ({ keycode, sequenceNumber }) => {
     const backEndPlayer = backEndPlayers[socket.id]
+
+    if (!backEndPlayers[socket.id]) return
+
     backEndPlayers[socket.id].sequenceNumber = sequenceNumber
     switch (keycode) {
       case 'KeyW':
@@ -111,10 +115,7 @@ io.on("connection", (socket) => {
     if (playerSides.top > 576) {
       backEndPlayers[socket.id].y = 576 - backEndPlayer.radius
     }
-
   })
-
-
 })
 
 setInterval(() => {

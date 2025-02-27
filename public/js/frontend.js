@@ -75,10 +75,12 @@ socket.on('updatePlayers', (backEndPlayers) => {
         parentDiv.appendChild(div)
       })
 
-      if (id === socket.id) {
+      frontEndPlayers[id].target = {
+        x: backEndPlayer.x,
+        y: backEndPlayer.y
+      }
 
-        frontEndPlayers[id].x = backEndPlayer.x
-        frontEndPlayers[id].y = backEndPlayer.y
+      if (id === socket.id) {
 
         const lastBackendInputIndex = playerInputs.findIndex(input => {
           return backEndPlayer.sequenceNumber === input.sequenceNumber
@@ -87,16 +89,8 @@ socket.on('updatePlayers', (backEndPlayers) => {
         if (lastBackendInputIndex > -1) playerInputs.splice(0, lastBackendInputIndex + 1)
 
         playerInputs.forEach(input => {
-          frontEndPlayers[id].x += input.dx
-          frontEndPlayers[id].y += input.dy
-        })
-      } else {
-
-        gsap.to(frontEndPlayers[id], {
-          x: backEndPlayer.x,
-          y: backEndPlayer.y,
-          duration: 0.015,
-          ease: 'linear'
+          frontEndPlayers[id].target.x += input.dx
+          frontEndPlayers[id].target.y += input.dy
         })
       }
     }
@@ -119,11 +113,15 @@ socket.on('updatePlayers', (backEndPlayers) => {
 let animationId
 function animate() {
   animationId = requestAnimationFrame(animate)
-  c.fillStyle = 'rgba(0, 0, 0, 0.5)'
   c.clearRect(0, 0, canvas.width, canvas.height)
 
   for (const id in frontEndPlayers) {
     const player = frontEndPlayers[id]
+
+    if (player.target) {
+      frontEndPlayers[id].x += (frontEndPlayers[id].target.x - frontEndPlayers[id].x) * 0.5
+      frontEndPlayers[id].y += (frontEndPlayers[id].target.y - frontEndPlayers[id].y) * 0.5
+    }
     player.draw()
   }
 
