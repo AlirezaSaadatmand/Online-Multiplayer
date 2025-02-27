@@ -73,6 +73,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on('keydown', ({ keycode, sequenceNumber }) => {
+    const backEndPlayer = backEndPlayers[socket.id]
     backEndPlayers[socket.id].sequenceNumber = sequenceNumber
     switch (keycode) {
       case 'KeyW':
@@ -91,8 +92,28 @@ io.on("connection", (socket) => {
         backEndPlayers[socket.id].x += SPEED;
         break;
     }
+    const playerSides = {
+      top: backEndPlayer.y - backEndPlayer.radius,
+      bottom: backEndPlayer.y + backEndPlayer.radius,
+      left: backEndPlayer.x - backEndPlayer.radius,
+      right: backEndPlayer.x + backEndPlayer.radius
+    }
+    if (playerSides.left < 0) {
+      backEndPlayers[socket.id].x = backEndPlayer.radius
+    }
+    if (playerSides.top < 0) {
+      backEndPlayers[socket.id].y = backEndPlayer.radius
+    }
+
+    if (playerSides.right > 1024) {
+      backEndPlayers[socket.id].x = 1024 - backEndPlayer.radius
+    }
+    if (playerSides.top > 576) {
+      backEndPlayers[socket.id].y = 576 - backEndPlayer.radius
+    }
+
   })
-  console.log(backEndPlayers);
+
 
 })
 

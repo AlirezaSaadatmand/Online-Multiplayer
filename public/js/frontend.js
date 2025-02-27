@@ -156,32 +156,29 @@ const playerInputs = []
 let sequenceNumber = 0
 
 setInterval(() => {
-  if (keys.w.pressed) {
+  if (keys.w.pressed && frontEndPlayers[socket.id].y - frontEndPlayers[socket.id].radius / 2 - SPEED > 0) {
     sequenceNumber++
     playerInputs.push({ sequenceNumber, dx: 0, dy: -SPEED })
     frontEndPlayers[socket.id].y -= SPEED;
     socket.emit('keydown', { keycode: 'KeyW', sequenceNumber })
   }
-  if (keys.a.pressed) {
+  if (keys.a.pressed && frontEndPlayers[socket.id].x - frontEndPlayers[socket.id].radius / 2 - SPEED > 0) {
     sequenceNumber++
     playerInputs.push({ sequenceNumber, dx: -SPEED, dy: 0 })
     frontEndPlayers[socket.id].x -= SPEED
     socket.emit('keydown', { keycode: 'KeyA', sequenceNumber })
-
   }
-  if (keys.s.pressed) {
+  if (keys.s.pressed && frontEndPlayers[socket.id].y + frontEndPlayers[socket.id].radius / 2 + SPEED < 576) {
     sequenceNumber++
     playerInputs.push({ sequenceNumber, dx: 0, dy: SPEED })
     frontEndPlayers[socket.id].y += SPEED
     socket.emit('keydown', { keycode: 'KeyS', sequenceNumber })
-
   }
-  if (keys.d.pressed) {
+  if (keys.d.pressed && frontEndPlayers[socket.id].x + frontEndPlayers[socket.id].radius / 2 + SPEED < 1024) {
     sequenceNumber++
     playerInputs.push({ sequenceNumber, dx: SPEED, dy: 0 })
     frontEndPlayers[socket.id].x += SPEED
     socket.emit('keydown', { keycode: 'KeyD', sequenceNumber })
-
   }
 }, 15);
 
