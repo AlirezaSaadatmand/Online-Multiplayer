@@ -15,14 +15,16 @@
     }
 
     canvas {
-      width: 100%;
-      height: 100%;
+      width: 1024px;
+      height: 576px;
+      background-image: url('./image/img.webp');
     }
   </style>
 </head>
 
-<body>
-  <div style="
+<body style="display: flex; align-items: center; justify-content: center;">
+  <div>
+    <div style="
         position: absolute;
         color: white;
         padding: 8px;
@@ -31,14 +33,14 @@
         user-select: none;
         background: rgba(0, 0, 0, 0.5);
       ">
-    <div style="margin-bottom: 8px;">Leaderboard</div>
-    <div id="playerLabels">
+      <div style="margin-bottom: 8px;">Leaderboard</div>
+      <div id="playerLabels">
+      </div>
     </div>
-  </div>
-  <canvas></canvas>
+    <canvas></canvas>
 
-  <!-- username input -->
-  <div style="
+    <!-- username input -->
+    <div style="
       display: flex;
       align-items: center;
       justify-content: center;
@@ -48,18 +50,18 @@
       bottom: 0;
       left: 0;
     ">
-    <form id="usernameForm">
-      <div>
-        <input id="usernameInput" type="text" placeholder="Username" style="
+      <form id="usernameForm">
+        <div>
+          <input id="usernameInput" type="text" placeholder="Username" style="
             padding: 12px;
             border-radius: 20px;
             border: none;
             background: #475569;
             color: #cbd5e1;
           " />
-      </div>
-      <div style="text-align: center; margin-top: 8px">
-        <button style="
+        </div>
+        <div style="text-align: center; margin-top: 8px">
+          <button style="
             padding: 8px 20px;
             border-radius: 100px;
             border: none;
@@ -71,12 +73,13 @@
             color: white;
             cursor: pointer;
           ">
-          Start!
-        </button>
-      </div>
-    </form>
+            Start!
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- username input end -->
   </div>
-  <!-- username input end -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.2/gsap.min.js"
     integrity="sha512-kVlGhj2qFy+KBCFuvjBJTGUMxbdqJKs4yK2jh0e0VPhWUPiPC87bzm4THmaaIee3Oj7j6sDpTTgm2EPPiESqBg=="
