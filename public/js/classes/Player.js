@@ -1,3 +1,5 @@
+// Todo: Player selection and animations instead of randomly setting the player skin 
+
 const playerSprites = [
   '../../image/PlayerTwo.webp',
   '../../image/PlayerOne.png'
